@@ -1,0 +1,97 @@
+<%= form_for(call_log) do |f| %>
+  <% if call_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(call_log.errors.count, "error") %> prohibited this call_log from being saved:</h2>
+
+      <ul>
+      <% call_log.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :entered_by %>
+    <%= f.text_field :entered_by %>
+  </div>
+
+  <div class="field">
+    <%= f.label :date %>
+    <%= f.date_select :date %>
+  </div>
+
+  <div class="field">
+    <%= f.label :starttime %>
+    <%= f.time_select :starttime %>
+  </div>
+
+  <div class="field">
+    <%= f.label :endtime %>
+    <%= f.time_select :endtime %>
+  </div>
+
+  <div class="field">
+    <%= f.label :user_id %>
+    <%= f.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :math %>
+    <%= f.check_box :math %>
+  </div>
+
+  <div class="field">
+    <%= f.label :worksheet %>
+    <%= f.check_box :worksheet %>
+  </div>
+
+  <div class="field">
+    <%= f.label :stoodle %>
+    <%= f.check_box :stoodle %>
+  </div>
+
+  <div class="field">
+    <%= f.label :image_share %>
+    <%= f.check_box :image_share %>
+  </div>
+
+  <div class="field">
+    <%= f.label :textbook %>
+    <%= f.text_field :textbook %>
+  </div>
+
+  <div class="field">
+    <%= f.label :page %>
+    <%= f.number_field :page %>
+  </div>
+
+  <div class="field">
+    <%= f.label :chaptitle %>
+    <%= f.text_field :chaptitle %>
+  </div>
+
+  <div class="field">
+    <%= f.label :notes %>
+    <%= f.text_field :notes %>
+  </div>
+
+  <div class="field">
+    <%= f.label :skill %>
+    <%= f.text_field :skill %>
+  </div>
+
+  <div class="field">
+    <%= f.label :startknow %>
+    <%= f.number_field :startknow %>
+  </div>
+
+  <div class="field">
+    <%= f.label :endknow %>
+    <%= f.number_field :endknow %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

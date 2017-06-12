@@ -1,0 +1,47 @@
+<h1>Time Clocks</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Clock in</th>
+      <th>Clock out</th>
+      <th>Date</th>
+      <th>Hours</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @time_clocks.each do |time_clock| %>
+      <tr>
+        <td><%= time_clock.clock_in.strftime("%l:%M") %></td>
+        <% if time_clock.clock_out.nil? %>
+        <td><%= time_clock.clock_out %></td>
+        <% else %>
+        <td><%= time_clock.clock_out.strftime("%l:%M") %></td>
+        <% end %>
+        <td><%= time_clock.date.strftime("%B %-d, %Y") %></td>
+        <td><%= time_clock.hours %></td>
+        <% if time_clock.clock_out.nil? %>
+        <td><%= form_for(time_clock) do |f| %>
+
+    <%= f.hidden_field :user_id, :value => current_user.id%>
+
+  <div class="actions">
+    <%= f.submit "Clock Out" %>
+  </div>
+<% end %><% end %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<h3>Total Hours: <b><%= @total_hours %></b></h3>
+
+<style type="text/css">
+  td,th {
+    border-right: 1px #333 solid;
+    margin: 0px;
+  }
+</style>

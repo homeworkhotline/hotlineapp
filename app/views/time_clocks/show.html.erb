@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Clock in:</strong>
+  <%= @time_clock.clock_in %>
+</p>
+
+<p>
+  <strong>Clock out:</strong>
+  <%= @time_clock.clock_out %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @time_clock.date %>
+</p>
+
+<p>
+  <strong>Hours:</strong>
+  <%= @time_clock.hours %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @time_clock.user %>
+</p>
+
+<%= link_to 'Edit', edit_time_clock_path(@time_clock) %> |
+<%= link_to 'Back', time_clocks_path %>
