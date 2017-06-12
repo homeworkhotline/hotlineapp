@@ -1,4 +1,4 @@
-    <% if !current_user.admin? %>
+    <% if !current_user.admin? && !current_user.time_clocks.last.clock_in.nil? && current_user.time_clocks.last.clock_out.nil? %>
           <%= link_to'Logout', time_clocks_path, data: { confirm: 'Please clock out!' } %>
           <% else %>
           <%= link_to'Logout', destroy_user_session_path, :method => :delete %>
