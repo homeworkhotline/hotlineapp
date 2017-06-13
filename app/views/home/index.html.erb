@@ -1,4 +1,4 @@
-
+<% content_for :title, "Home" %>
 <%= link_to'Logout', destroy_user_session_path, :method => :delete %>
   <% unless current_user.admin? %>
   	<%= link_to "Time Clock", time_clocks_path %>
@@ -132,3 +132,15 @@
     font-size: 20px;
   }
 </style>
+<% unless current_user.admin? %>
+<br><br>
+<h3 style="color: red">!! Work In Progress !!</h3>
+      <%= form_for(@call_log) do |f| %>
+      <h4>Student Code Name</h4>
+    <%= f.text_field :codename, :required => true %>
+    <%= f.submit "Start Call" %>
+    <%= f.hidden_field :user_id, :value => current_user.id %>
+    <%= f.hidden_field :date, :value => Date.today %>
+    <%= f.hidden_field :starttime, :value => Time.now %>
+    <% end %>
+<% end %>

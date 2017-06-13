@@ -2,6 +2,7 @@ class User < ApplicationRecord
   
   has_many :time_clocks
   has_many :mnps_reports
+  has_many :call_logs
 
 	validates :token,
     inclusion: { in: [ "volunteer" , "hotline teacher", "mnps","5h43bf3ff2azce43"] }

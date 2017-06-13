@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   resources :call_logs
   resources :schools
+  resources :students
   resources :searches
 devise_for :users, controllers: { registrations: 'users/registrations' }
 
