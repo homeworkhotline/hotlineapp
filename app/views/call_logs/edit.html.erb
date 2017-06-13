@@ -1,24 +1,8 @@
-<h1>Editing Call Log</h1>
 <% if @student.school_id.nil? %>
-<%= form_for(@student) do |f| %>
-<div class="field">
-<h4>School Name:</h4>
-<%= f.select :school_id, options_for_select(@schools.collect { | school | ["#{school.name}" , school.id] })%>
-</div>
-<div class="field">
-<h4>Home Language:</h4>
-<%= f.text_field :homelang%>
-</div>
-<div class="field">
-<h4>Grade:</h4>
-<%= f.number_field :grade%>
-</div>
-<div class="field">
-Internet?
-<%= f.check_box :internet%>
-</div>
-<%= f.submit "Continue" %>
-<% end %>
+<h1>Student has not called HomeworkHotline this year!</h1>
+<h2>Please fill out their personal info below</h2>
+<%= render 'studentform', student: @student %>
 <% else %>
+<h1>Call Log</h1>
 <%= render 'form', call_log: @call_log %>
 <% end %>

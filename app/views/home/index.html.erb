@@ -4,7 +4,7 @@
   	<%= link_to "Time Clock", time_clocks_path %>
   <% end %>
   <% if current_user.studentvol? %>
-  <h1 style="line-height: 35px;">Hello, <%= current_user.firstname.capitalize %>. Thank you for volunteering! Clock in if you want, but please click the link to begin filling out school information.</h1>
+  <h1 style="line-height: 35px;">Hello, <%= current_user.firstname.capitalize %>. Thank you for volunteering! Click on the link down below to add a school</h1>
   <br>
   <%= link_to "Add School", new_school_path, class:"school" %>
 <% elsif current_user.teacher? || current_user.hotlineteacher? %>
@@ -135,12 +135,12 @@
 <% unless current_user.admin? %>
 <br><br>
 <h3 style="color: red">!! Work In Progress !!</h3>
-      <%= form_for(@call_log) do |f| %>
+      <%= form_for(@call_log,:html=>{:class=>"firstform",:multipart => true,:remote=>true}) do |f| %>
       <h4>Student Code Name</h4>
     <%= f.text_field :codename, :required => true %>
-    <%= f.submit "Start Call" %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.hidden_field :date, :value => Date.today %>
-    <%= f.hidden_field :starttime, :value => Time.now %>
+    <%= f.hidden_field :starttime, :value => Time.now - 5.hours %>
+    <%= f.submit "Start Call" %>
     <% end %>
 <% end %>

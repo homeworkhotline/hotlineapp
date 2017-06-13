@@ -21,7 +21,6 @@ class CallLogsController < ApplicationController
   def edit
     @call_log = CallLog.find(params[:id])
     @students = Student.all
-    @student = @students.where(id: @call_log.student_id).first
     @schools = School.all
   end
 
@@ -30,11 +29,12 @@ class CallLogsController < ApplicationController
   def create
     @call_log = CallLog.new(call_log_params)
     @students = Student.all
-
+    @schools = School.all
     respond_to do |format|
       if @call_log.save
         format.html { redirect_to edit_call_log_path(@call_log), notice: 'Call log was successfully created.' }
         format.json { render :show, status: :created, location: @call_log }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @call_log.errors, status: :unprocessable_entity }
@@ -57,13 +57,16 @@ class CallLogsController < ApplicationController
   def update
     respond_to do |format|
       if @call_log.update(call_log_params)
-        format.html { redirect_to @call_log, notice: 'Call log was successfully updated.' }
+        format.html { redirect_to root_path, notice: 'Call log was successfully updated.' }
         format.json { render :show, status: :ok, location: @call_log }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @call_log.errors, status: :unprocessable_entity }
       end
     end
+      @call_log.endtime = Time.now - 5.hours
+      @call_log.save!
   end
 
   # DELETE /call_logs/1
