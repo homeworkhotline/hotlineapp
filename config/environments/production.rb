@@ -23,7 +23,7 @@ config.action_mailer.smtp_settings = {
  :user_name            => ENV['gmail_username'],
  :password             => ENV['gmail_password'],
  :authentication       => "plain",
- :openssl_verify_mode  => 'none'
+ :openssl_verify_mode  => 'none',
 :enable_starttls_auto => true
 }
   # Full error reports are disabled and caching is turned on.
