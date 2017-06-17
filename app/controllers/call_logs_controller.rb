@@ -66,6 +66,7 @@ class CallLogsController < ApplicationController
       end
     end
       @call_log.endtime = Time.now - 5.hours
+      @call_log.duration = time_diff(@call_log.starttime, @call_log.endtime).strftime("%k:%M:%S")
       @call_log.save!
   end
 
@@ -87,6 +88,6 @@ class CallLogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def call_log_params
-      params.require(:call_log).permit(:entered_by, :date, :starttime, :endtime, :user_id, :math, :worksheet, :stoodle, :image_share, :textbook, :page, :chaptitle, :notes, :skill, :startknow, :endknow, :codename, :student_id)
+      params.require(:call_log).permit(:entered_by, :date, :starttime, :endtime, :user_id, :math, :worksheet, :stoodle, :image_share, :textbook, :page, :chaptitle, :notes, :skill, :startknow, :endknow, :codename, :student_id, :parent, :lang, :duration)
     end
 end

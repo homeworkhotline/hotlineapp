@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     unless current_user.admin?
       redirect_to root_path
     end
-    @users = User.all.where.not(role: :admin)
+    @users = User.all
   end
 
   def index

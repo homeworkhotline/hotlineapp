@@ -1,8 +1,6 @@
 <% content_for :title, "Home" %>
 <%= link_to'Logout', destroy_user_session_path, :method => :delete %>
-  <% unless current_user.admin? %>
   	<%= link_to "Time Clock", time_clocks_path %>
-  <% end %>
   <% if current_user.studentvol? %>
   <h1 style="line-height: 35px;">Hello, <%= current_user.firstname.capitalize %>. Thank you for volunteering! Click on the link down below to add a school</h1>
   <br>
@@ -36,16 +34,16 @@
   <% end %>
 <% elsif current_user.admin? %>
   <h1>Welcome back, <%= current_user.firstname.capitalize %>.</h1><br><br>
+    <h3>Employees</h3>
+  <% User.where.not(id: current_user.id).each do |user| %>
+  <%= link_to "#{user.firstname} #{user.lastname}", user_path(user) %><br>
+  <% end %><br>
+ <div class="pay">
   <%= form_for(@mnps_report) do |f| %>
   <%= f.hidden_field :var, :value => 1 %>
   <%= f.hidden_field :user_id, :value => current_user.id %>
   <%= f.hidden_field :billdate, :value => Date.today %>
-  <h3>Employees</h3>
-  <% User.where.not(role: :admin).each do |user| %>
-  <%= link_to "#{user.firstname} #{user.lastname}", user_path(user) %><br>
-  <% end %><br>
-  <div class="pay">
-    <%= f.submit "Pay All Employees", style: "display:inline-block" %>
+    <%= f.submit "Pay All Employees" %>
     <% @users.where.not(role: :admin).each do |user| %>
       <% user.time_clocks.each do |time| %>
         <% if !time.clock_in.nil? && time.clock_out.nil? %>
@@ -54,9 +52,11 @@
       <% end %>
     <% end %>
   </div><br>
+  <div class="pay">
   <%= link_to home_timesheets_path do %>
-  <button style="display: inline-block;">Employee Timesheets</button>
+  <button>Employee Timesheets</button>
   <% end %>
+  </div>
   <br>
   <% end %><hr width="20%" style="float: left;"><br>
   <h2>Promote user to admin</h2>
@@ -75,10 +75,8 @@
     <%= f.submit "Begin Search" %>
     </div>
 <% end %>
-
 <% end %>
 <% if @current_clock.exists? %>
-<br><br>
 <table>
   <thead>
     <tr>
@@ -112,8 +110,8 @@
     <% end %>
   </tbody>
 </table>
+<br><br>
 <% else %>
-<% unless current_user.admin? %>
 <%= form_for(@time_clock) do |f| %>
 
     <%= f.hidden_field :date, :value => Date.today.to_s %>
@@ -122,11 +120,11 @@
     <%= f.submit "Clock in"%>
   </div>
   <% end %>
-  <% end %>
 <% end %>
 <style type="text/css">
   .pay {
     float: center;
+    display: inline-block;
   }
   .school {
     font-size: 20px;
@@ -134,7 +132,6 @@
 </style>
 <% unless current_user.admin? %>
 <br><br>
-<h3 style="color: red">!! Work In Progress !!</h3>
       <%= form_for(@call_log,:html=>{:class=>"firstform",:multipart => true,:remote=>true}) do |f| %>
       <h4>Student Code Name</h4>
     <%= f.text_field :codename, :required => true %>

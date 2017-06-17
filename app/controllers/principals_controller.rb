@@ -57,6 +57,7 @@ class PrincipalsController < ApplicationController
 
     respond_to do |format|
       if @principal.save
+        PrincipalMailer.email(@principal).deliver
         format.html { redirect_to @principal, notice: 'Principal was successfully created.' }
         format.json { render :show, status: :created, location: @principal }
       else

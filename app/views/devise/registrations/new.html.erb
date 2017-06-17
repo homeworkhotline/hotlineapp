@@ -1,3 +1,4 @@
+<% content_for :title, "Sign Up" %>
 <%= image_tag "hhcircle.png", class: "image" %>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
@@ -53,7 +54,7 @@
     border-left: #f2f2f2 solid 3px;
     border-right: #f2f2f2 solid 3px;
     font-size: 22px;
-    font-family: Lato;
+    font-family: 'Lato', sans-serif;
     font-weight: 300;
     padding-left: 12px;
     margin-bottom: 10px;
@@ -72,7 +73,7 @@
   width: 300px;
   text-align: center;
   font-size: 20px;
-  font-family: Lato;
+  font-family: 'Lato', sans-serif;
   font-weight: 400;
   padding: 10px 0;
   letter-spacing: 4px;
@@ -84,7 +85,8 @@
   cursor: pointer;
   position: relative;
   float: center;
-  transition: all 150ms ease-in-out
+  transition: all 150ms ease-in-out;
+  margin-bottom:50px;
   }
   .button:hover{ 
     background-color:#5CDA89;
