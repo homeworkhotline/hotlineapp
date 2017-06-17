@@ -12,8 +12,10 @@ Rails.application.configure do
 
   config.action_mailer.default_url_options = { host: 'homeworkhotline.herokuapp.com' }
 
-  config.action_mailer.delivery_method = :smtp
-# SMTP settings for gmail
+config.action_mailer.default :charset => "utf-8"
+config.action_mailer.perform_deliveries = true
+config.action_mailer.raise_delivery_errors = true
+config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
  :address              => "smtp.gmail.com",
  :domain               => "gmail.com",
@@ -21,6 +23,7 @@ config.action_mailer.smtp_settings = {
  :user_name            => ENV['gmail_username'],
  :password             => ENV['gmail_password'],
  :authentication       => "plain",
+ :openssl_verify_mode  => 'none'
 :enable_starttls_auto => true
 }
   # Full error reports are disabled and caching is turned on.
