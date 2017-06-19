@@ -1,8 +1,8 @@
 class PrincipalMailer < ApplicationMailer
-	default from: "zavier@tekzen.net"
+	default from: "homeworkhotlinenashville@gmail.com"
 
   	def email(principal)
     	@principal = principal
-    	mail(to: "xavier2miller@gmail.com", subject: 'Principal Form Filled Out')
+    	mail(to: "adrianne@homeworkhotline.info", subject: 'Principal Form Filled Out')
   	end
 end

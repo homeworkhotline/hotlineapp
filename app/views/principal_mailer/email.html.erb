@@ -5,8 +5,10 @@
   </head>
   <body>
     <h1>Hi Adrianne,</h1>
-    <p>
-      <%= @principal.schoolsystem %> County has filled out their information. View it <%= link_to "here", "https://app.homeworkhotline.info/principals/#{@principal.id}" %>
-    </p>
+    <h3>
+      <%= @principal.schoolsystem %> County has filled out their information.<br>
+      <%= link_to "Download School Names List", dlsnl_url(@principal.id) %><br>
+      <%= link_to "Download Newly Adopted Books List", dlnab_url(@principal.id) %>
+    </h3>
   </body>
 </html>
