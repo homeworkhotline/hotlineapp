@@ -68,10 +68,10 @@
   </div>
   <% end %>
   <br><hr width="20%" style="float: left;"><br>
-  <%= form_for(@search) do |f| %>
+  <%= form_for(@search, :html=>{:class=>"searchform",:multipart => true,:remote=>true}) do |f| %>
   <div class="field">
     <h2>Search:</h2>
-    <%= f.select :model, options_for_select([["Schools", "School"], ["Principal Reports", "Principal"], ["Time Sheet Reports", "MnpsReport"]]) %>
+    <%= f.select :model, options_for_select([["Schools", "School"], ["Students", "Student"], ["Principal Reports", "Principal"], ["Time Sheet Reports", "MnpsReport"]]) %>
     <%= f.submit "Begin Search" %>
     </div>
 <% end %>
@@ -137,7 +137,7 @@
     <%= f.text_field :codename, :required => true %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.hidden_field :date, :value => Date.today %>
-    <%= f.hidden_field :starttime, :value => Time.now - 5.hours %>
+    <%= f.hidden_field :starttime, :value => Time.now.strftime("%k:%M:%S") %>
     <%= f.submit "Start Call" %>
     <% end %>
 <% end %>

@@ -3,7 +3,6 @@ class PrincipalMailer < ApplicationMailer
 
   	def email(principal)
     	@principal = principal
-    	@users = User.all.where(role: :admin)
     	mail(to: "xavier2miller@gmail.com", subject: 'Principal Form Filled Out')
   	end
 end

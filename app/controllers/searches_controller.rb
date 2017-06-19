@@ -62,6 +62,7 @@ class SearchesController < ApplicationController
       if @search.save
         format.html { redirect_to edit_search_path(@search), notice: 'Search was successfully created.' }
         format.json { render :show, status: :created, location: @search }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @search.errors, status: :unprocessable_entity }

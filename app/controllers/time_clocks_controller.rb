@@ -37,11 +37,11 @@ class TimeClocksController < ApplicationController
 
     if current_user.teacher?
       @time_clock.clock_in = round_time(Time.now).strftime("%k:%M:%S")
-      @time_clock.clock_in = @time_clock.clock_in - 5.hours
+      @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     else
       @time_clock.clock_in = Time.now.strftime("%k:%M:%S")
-      @time_clock.clock_in = @time_clock.clock_in - 5.hours
+      @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     end
 
@@ -62,11 +62,11 @@ class TimeClocksController < ApplicationController
     @time_clock = TimeClock.find(params[:id])
     if current_user.hotlineteacher? || current_user.teacher?
       @time_clock.clock_out = round_time(Time.now).strftime("%k:%M:%S")
-      @time_clock.clock_out = @time_clock.clock_out - 5.hours
+      @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     else
       @time_clock.clock_out = Time.now.strftime("%k:%M:%S")
-      @time_clock.clock_out = @time_clock.clock_out - 5.hours
+      @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     end
     @time_clock.billed = 0

@@ -18,12 +18,12 @@ config.action_mailer.raise_delivery_errors = true
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
  :address              => "smtp.gmail.com",
- :domain               => "gmail.com",
  :port                 => 587,
  :user_name            => ENV['gmail_username'],
  :password             => ENV['gmail_password'],
  :authentication       => "plain",
  :openssl_verify_mode  => 'none',
+ :enable_starttls_auto => true
 }
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false

@@ -65,8 +65,8 @@ class CallLogsController < ApplicationController
         format.json { render json: @call_log.errors, status: :unprocessable_entity }
       end
     end
-      @call_log.endtime = Time.now - 5.hours
-      @call_log.duration = time_diff(@call_log.starttime, @call_log.endtime).strftime("%k:%M:%S")
+      @call_log.endtime = Time.now.strftime("%k:%M:%S")
+      @call_log.duration = time_diff(@call_log.starttime, @call_log.endtime)
       @call_log.save!
   end
 

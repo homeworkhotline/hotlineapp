@@ -109,7 +109,12 @@ table, th, td {
 	<% end %>
 <% elsif @search.model == "School" %>
 <% @results.each do |result| %>
-  <%= link_to "#{result.name}","/#{@search.model.downcase}s/#{result.id}" %><br>
+<% @count = Student.all.where(school_id: result.id).count %>
+  <%= link_to "#{result.name} - #{@count} Student#{'s' unless @count <= 1}","/#{@search.model.downcase}s/#{result.id}" %><br>
+  <% end %>
+<% elsif @search.model == "Student" %>
+<% @results.each do |result| %>
+  <%= link_to "#{result.codename}","/#{@search.model.downcase}s/#{result.id}" %><br>
   <% end %>
 <% else %>
 <% @results.each do |result| %>
