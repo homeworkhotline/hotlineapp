@@ -7,6 +7,11 @@ class TimeClocksController < ApplicationController
   def index
     @time_clocks = current_user.time_clocks
     @time_clock = TimeClock.new
+    @test_clock = current_user.time_clocks.last
+    unless @test_clock.clock_out.nil?
+      @time = TimeClock.new(clock_in: Time.now)
+      @time.save!
+    end
     @total_hours = 0
     @unpaid_hours = 0
     @time_clocks.each do |time|
