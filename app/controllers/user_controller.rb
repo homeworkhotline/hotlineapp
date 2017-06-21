@@ -9,12 +9,11 @@ class UserController < ApplicationController
   	@user.time_clocks.each do |time|
   		if time.hours.nil?
   		else
-        @total_hours += time.hours.round
+        @total_hours += time.hours
       end
     end
   @user.time_clocks.where(billed: false).each do |time|
     if time.hours.nil?
-      @unpaid_hours += 0
     else
     @unpaid_hours += time.hours
   end

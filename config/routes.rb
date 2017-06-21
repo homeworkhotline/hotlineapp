@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   resources :schools
   resources :students
   resources :searches
-devise_for :users, controllers: { registrations: 'users/registrations' }
+devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
 # or
 resources :user, only: [:show]

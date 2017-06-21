@@ -6,22 +6,35 @@ class TimeClocksController < ApplicationController
   # GET /time_clocks.json
   def index
     @time_clocks = current_user.time_clocks
+    @time_clock = TimeClock.new
     @total_hours = 0
+    @unpaid_hours = 0
     @time_clocks.each do |time|
       if time.clock_out.nil?
       else
         time.hours = time_diff(time.clock_in, time.clock_out)
-        @total_hours += time.hours.round
+        @total_hours += time.hours
       end
     end
+    @time_clocks.where(billed: false).each do |time|
+    if time.hours.nil?
+      @unpaid_hours += 0
+    else
+    @unpaid_hours += time.hours
+  end
+  end
   end
 
   # GET /time_clocks/1
   # GET /time_clocks/1.json
+  def show
+    @time_clock = TimeClock.find(params[:id])
+  end
 
   # GET /time_clocks/new
   def new
     @time_clock = TimeClock.new
+    render :layout => 'report'
   end
 
   # GET /time_clocks/1/edit
@@ -32,10 +45,11 @@ class TimeClocksController < ApplicationController
   # POST /time_clocks.json
   def create
     @time_clock = TimeClock.new(time_clock_params)
-    @time_clock.user_id = current_user.id.to_i
+    @time_clock.user_id = current_user.id
+    @time_clock.date = Date.today.to_s
     @time_clock.save!
 
-    if current_user.teacher?
+    if current_user.mnps_teacher?
       @time_clock.clock_in = round_time(Time.now).strftime("%k:%M:%S")
       @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
@@ -60,7 +74,7 @@ class TimeClocksController < ApplicationController
   # PATCH/PUT /time_clocks/1.json
   def update
     @time_clock = TimeClock.find(params[:id])
-    if current_user.hotlineteacher? || current_user.teacher?
+    if current_user.hotline_teacher? || current_user.mnps_teacher?
       @time_clock.clock_out = round_time(Time.now).strftime("%k:%M:%S")
       @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
@@ -73,7 +87,7 @@ class TimeClocksController < ApplicationController
     @time_clock.save!
     respond_to do |format|
       if @time_clock.update(time_clock_params)
-        format.html { redirect_to root_path, notice: 'Time clock was successfully updated.' }
+        format.html { redirect_to destroy_user_session_path }
         format.json { render :show, status: :ok, location: @time_clock }
       else
         format.html { render :edit }

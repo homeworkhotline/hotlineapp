@@ -13,5 +13,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  enum role: [:studentvol, :hotlineteacher, :teacher, :admin]
+  enum role: [:student_volunteer, :hotline_teacher, :mnps_teacher, :administrator]
 end

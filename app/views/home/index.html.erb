@@ -1,38 +1,7 @@
 <% content_for :title, "Home" %>
+<% content_for :page, "Home" %>
 <%= link_to'Logout', destroy_user_session_path, :method => :delete %>
   	<%= link_to "Time Clock", time_clocks_path %>
-  <% if current_user.studentvol? %>
-  <h1 style="line-height: 35px;">Hello, <%= current_user.firstname.capitalize %>. Thank you for volunteering! Click on the link down below to add a school</h1>
-  <br>
-  <%= link_to "Add School", new_school_path, class:"school" %>
-<% elsif current_user.teacher? || current_user.hotlineteacher? %>
-  <% if current_user.teacher? && current_user.men.nil? %>
-  <h2>Please finish filling the out the form below <%= current_user.firstname %></h2>
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-
-  <div class="field">
-    <%= f.label :district %>
-    <%= f.select :district, [["MNPS"]], autofocus: true %>
-  </div>
-
-  <div class="field">
-    Metro Employee Number<br />
-    <%= f.number_field :men, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :school %>
-    <%= f.text_field :school, autocomplete: "off" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Submit" %>
-  </div>
-<% end %>
-  <% else %>
-  <h1>Hello, <%= current_user.firstname.capitalize %>. Welcome back. Take a call, and fill out the form below.</h1>
-  <% end %>
-<% elsif current_user.admin? %>
   <h1>Welcome back, <%= current_user.firstname.capitalize %>.</h1><br><br>
     <h3>Employees</h3>
   <% User.where.not(id: current_user.id).each do |user| %>
@@ -75,52 +44,6 @@
     <%= f.submit "Begin Search" %>
     </div>
 <% end %>
-<% end %>
-<% if @current_clock.exists? %>
-<table>
-  <thead>
-    <tr>
-      <th>Clock in</th>
-      <th>Clock out</th>
-      <th>Date</th>
-      <th>Hours</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @current_clock.each do |time_clock| %>
-      <tr>
-        <td><%= time_clock.clock_in.strftime("%l:%M") %></td>
-        <% if time_clock.clock_out.nil? %>
-        <td><%= time_clock.clock_out %></td>
-        <% else %>
-        <td><%= time_clock.clock_out.strftime("%l:%M") %></td>
-        <% end %>
-        <td><%= time_clock.date.strftime("%B %-d, %Y") %></td>
-        <td><%= time_clock.hours %></td>
-        <% if time_clock.clock_out.nil? %>
-        <td><%= form_for(time_clock) do |f| %>
-     <%= f.hidden_field :user_id, :value => current_user.id %>
-
-  <div class="actions">
-    <%= f.submit "Clock Out" %>
-  </div>
-<% end %><% end %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
-<br><br>
-<% else %>
-<%= form_for(@time_clock) do |f| %>
-
-    <%= f.hidden_field :date, :value => Date.today.to_s %>
-
-  <div class="actions">
-    <%= f.submit "Clock in"%>
-  </div>
-  <% end %>
-<% end %>
 <style type="text/css">
   .pay {
     float: center;
@@ -130,14 +53,3 @@
     font-size: 20px;
   }
 </style>
-<% unless current_user.admin? %>
-<br><br>
-      <%= form_for(@call_log,:html=>{:class=>"firstform",:multipart => true,:remote=>true}) do |f| %>
-      <h4>Student Code Name</h4>
-    <%= f.text_field :codename, :required => true %>
-    <%= f.hidden_field :user_id, :value => current_user.id %>
-    <%= f.hidden_field :date, :value => Date.today %>
-    <%= f.hidden_field :starttime, :value => Time.now.strftime("%k:%M:%S") %>
-    <%= f.submit "Start Call" %>
-    <% end %>
-<% end %>

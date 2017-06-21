@@ -1,14 +1,16 @@
 class StudentsController < ApplicationController
 	def edit
+    @student = Student.find(params[:id])
+    @schools = School.all
 	end
 
 	def update
 		@student = Student.find(params[:id])
+    @call_log = CallLog.where(student_id: @student.id).last
     respond_to do |format|
       if @student.update(student_params)
-        format.html { redirect_to :back, notice: 'Student was successfully updated.' }
+        format.html { redirect_to edit_call_log_path(@call_log), notice: 'Student was successfully updated.' }
         format.json { render :show, status: :ok, location: @student }
-        format.js
       else
         format.html { render :edit }
         format.json { render json: @student.errors, status: :unprocessable_entity }

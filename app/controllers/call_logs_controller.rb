@@ -22,6 +22,7 @@ class CallLogsController < ApplicationController
     @call_log = CallLog.find(params[:id])
     @students = Student.all
     @schools = School.all
+    @student = @students.where(id: @call_log.student_id).first
   end
 
   # POST /call_logs
@@ -32,15 +33,17 @@ class CallLogsController < ApplicationController
     @schools = School.all
     respond_to do |format|
       if @call_log.save
+        if @call_log.student_id.nil?
+        format.html { redirect_to edit_student_path(@call_log.student_id), notice: 'Please create a student' }
+        else
         format.html { redirect_to edit_call_log_path(@call_log), notice: 'Call log was successfully created.' }
+      end
         format.json { render :show, status: :created, location: @call_log }
-        format.js
       else
         format.html { render :new }
         format.json { render json: @call_log.errors, status: :unprocessable_entity }
       end
-    end
-    unless Student.exists?(codename: @call_log.codename)
+                          unless Student.exists?(codename: @call_log.codename)
     @student = Student.new(codename: @call_log.codename)
     @student.save!
   end
@@ -50,6 +53,7 @@ class CallLogsController < ApplicationController
     end
     @call_log.entered_by = "#{@call_log.user.firstname} #{@call_log.user.lastname}"
     @call_log.save!
+    end
   end
 
   # PATCH/PUT /call_logs/1

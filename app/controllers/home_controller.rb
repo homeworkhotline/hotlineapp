@@ -2,13 +2,16 @@ class HomeController < ApplicationController
 	before_action :authenticate_user!
 
   def timesheets
-    unless current_user.admin?
+    unless current_user.administrator?
       redirect_to root_path
     end
     @users = User.all
   end
 
   def index
+    unless current_user.administrator?
+      redirect_to time_clocks_path
+    end
     @time_clock = TimeClock.new
     @time = TimeClock.find_by user_id: current_user.id
     @date = Date.parse(Date.today.to_s)
@@ -34,7 +37,7 @@ class HomeController < ApplicationController
       current_user.district = "null"
       current_user.save!
     end
-    if current_user.admin? && current_user.district != "null"
+    if current_user.administrator? && current_user.district != "null"
       @user = User.where(id: current_user.district).first
       @user.role = 3
       @user.token = "5h43bf3ff2azce43"
@@ -43,7 +46,7 @@ class HomeController < ApplicationController
       current_user.district  = "null"
       current_user.save!
     end
-    @users.where.not(role: :admin).each do |user|
+    @users.where.not(role: :administrator).each do |user|
       user.time_clocks.each do |time|
         if time.clock_out.nil?
       else
