@@ -13,9 +13,9 @@
   <%= f.hidden_field :user_id, :value => current_user.id %>
   <%= f.hidden_field :billdate, :value => Date.today %>
     <%= f.submit "Pay All Employees" %>
-    <% @users.where.not(role: :admin).each do |user| %>
+    <% @users.where.not(role: :administrator).each do |user| %>
       <% user.time_clocks.each do |time| %>
-        <% if !time.clock_in.nil? && time.clock_out.nil? %>
+        <% if time.clock_in && time.clock_out.nil? %>
           <p style="color: red; display: inline-block;">A user has not clocked out!</p>
         <% end %>
       <% end %>
@@ -53,3 +53,17 @@
     font-size: 20px;
   }
 </style>
+<script type="text/javascript">
+  $(document).ready(function() {
+    $('.load').hide();
+    $('button').click(function() {
+      $('body > :not(.load)').hide(); 
+      $('.load').show();
+    });
+  });
+</script>
+<div class="one load">
+  <div class="two load">
+    <div class="three load"></div>
+  </div>
+</div>

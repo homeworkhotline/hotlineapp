@@ -9,6 +9,7 @@
 <div class="button">LOG OUT</div>
 <% end %>
 <%= content_for :page, "Timesheets" %>
+<%= content_for :title, "Timesheets" %>
 <% if current_user.mnps_teacher? && current_user.men.nil? %>
   <h2>Please finish filling the out the form below <%= current_user.firstname %></h2>
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>

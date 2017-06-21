@@ -38,8 +38,12 @@ class TimeClocksController < ApplicationController
 
   # GET /time_clocks/new
   def new
+    if current_user.time_clocks.last.clock_out.nil?
+      redirect_to root_path
+    else
     @time_clock = TimeClock.new
     render :layout => 'report'
+  end
   end
 
   # GET /time_clocks/1/edit
@@ -55,11 +59,11 @@ class TimeClocksController < ApplicationController
     @time_clock.save!
 
     if current_user.mnps_teacher?
-      @time_clock.clock_in = round_time(Time.now).strftime("%k:%M:%S")
+      @time_clock.clock_in = round_time(Time.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     else
-      @time_clock.clock_in = Time.now.strftime("%k:%M:%S")
+      @time_clock.clock_in = (Time.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     end
@@ -92,7 +96,7 @@ class TimeClocksController < ApplicationController
     @time_clock.save!
     respond_to do |format|
       if @time_clock.update(time_clock_params)
-        format.html { redirect_to destroy_user_session_path }
+        format.html { redirect_to root_path }
         format.json { render :show, status: :ok, location: @time_clock }
       else
         format.html { render :edit }
