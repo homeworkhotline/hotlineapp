@@ -8,7 +8,7 @@ class TimeClocksController < ApplicationController
     @time_clocks = current_user.time_clocks
     @time_clock = TimeClock.new
     @test_clock = current_user.time_clocks.last
-    if @test_clock && @test_clock.clock_out.nil?
+    unless @test_clock && @test_clock.clock_out.nil?
       @time = TimeClock.new(clock_in: Time.now)
       @time.save!
     end
