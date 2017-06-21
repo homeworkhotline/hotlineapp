@@ -1,3 +1,3 @@
-<%= form_for(time_clock, :html => {:target=>'new_section_frame'}) do |f| %>
+<%= form_for(time_clock, :html => {:target=>'_blank'}) do |f| %>
     <%= f.hidden_field :date, :value => Date.today.to_s %>
 <% end %>

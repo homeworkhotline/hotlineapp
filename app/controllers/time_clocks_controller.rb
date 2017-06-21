@@ -38,7 +38,7 @@ class TimeClocksController < ApplicationController
 
   # GET /time_clocks/new
   def new
-    if current_user.time_clocks.last.clock_out.nil?
+    if current_user.time_clocks.last && current_user.time_clocks.last.clock_out.nil?
       redirect_to root_path
     else
     @time_clock = TimeClock.new
