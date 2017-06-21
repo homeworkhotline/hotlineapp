@@ -9,7 +9,7 @@ class TimeClocksController < ApplicationController
     @time_clock = TimeClock.new
     @test_clock = current_user.time_clocks.last
     unless @test_clock && @test_clock.clock_out.nil?
-      @time = TimeClock.new(clock_in: Time.now)
+      @time = TimeClock.new(clock_in: Time.now, user_id: current_user.id, date: Date.today.to_s)
       @time.save!
     end
     @total_hours = 0
