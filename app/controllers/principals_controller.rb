@@ -4,7 +4,7 @@ class PrincipalsController < ApplicationController
   # GET /principals
   # GET /principals.json
   def index
-    unless current_user
+    unless current_user && current_user
       redirect_to root_path
     end
     @principals = Principal.all
@@ -13,13 +13,10 @@ class PrincipalsController < ApplicationController
   # GET /principals/1
   # GET /principals/1.json
   def show
-    unless current_user
-      redirect_to root_path
-    end
   end
 
   def dlnab
-    unless current_user
+    unless current_user && current_user.administrator?
       redirect_to root_path
     end
     @principal = Principal.find(params[:id])
@@ -29,13 +26,22 @@ class PrincipalsController < ApplicationController
   end
 
   def dlsnl
-    unless current_user
+    unless current_user && current_user.administrator?
       redirect_to root_path
     end
     @principal = Principal.find(params[:id])
     send_data(@principal.snl_contents,
             type: @principal.snl_content_type,
             filename: @principal.snl_filename)
+  end
+    def dlnice
+    unless current_user && current_user.administrator?
+      redirect_to root_path
+    end
+    @principal = Principal.find(params[:id])
+    send_data(@principal.nice_content,
+            type: @principal.nice_type,
+            filename: @principal.nice_name)
   end
 
   # GET /principals/new
@@ -45,7 +51,7 @@ class PrincipalsController < ApplicationController
 
   # GET /principals/1/edit
   def edit
-    unless current_user
+    unless current_user.administrator?
       redirect_to root_path
     end
   end
@@ -99,6 +105,6 @@ class PrincipalsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def principal_params
-      params.require(:principal).permit(:ccontactfirst, :ccontactlast, :ccontacttitle, :schoolsystem, :mailaddress, :csz, :phonenumb, :email, :textcontactfirst, :textcontactlast, :textcontactemail, :meetone, :meettwo, :completedbyfirst, :completedbylast, :completedbytitle, :schooltype, :peds, :census, :ptgs, :sonicpartner, :titlei, :appalachain, :districtnumb, :nab, :nab_content_type, :nab_filename, :nab_contents, :snl, :snl_content_type, :snl_filename, :snl_contents, :city, :zip)
+      params.require(:principal).permit(:ccontactfirst, :ccontactlast, :ccontacttitle, :schoolsystem, :mailaddress, :csz, :phonenumb, :email, :textcontactfirst, :textcontactlast, :textcontactemail, :mone, :mtwo, :completedbyfirst, :completedbylast, :completedbytitle, :schooltype, :peds, :census, :ptgs, :sonicpartner, :titlei, :appalachain, :districtnumb, :nab, :nab_content_type, :nab_filename, :nab_contents, :snl, :snl_content_type, :snl_filename, :snl_contents, :city, :zip, :d1, :d2, :d3, :c1, :c2, :c3, :nice, :nice_name, :nice_contents, :nice_type)
     end
 end

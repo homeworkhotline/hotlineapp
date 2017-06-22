@@ -29,10 +29,6 @@
   <div class="field", style="margin-top: 10px;">
     <b>School System</b> <%= f.text_field :schoolsystem, style: "margin-left:20px;", :required => true %>
   </div>
-  <div class="field", style="margin-top: 20px;">
-    <b>Sonic Partner?</b>
-    <%= f.check_box :sonicpartner, class:"checkbox" %>
-  </div>
   <div class="field", style="display: inline-block;">
     <h4>Mailing Address</h4>
     <%= f.text_field :mailaddress, :required => true %>
@@ -40,11 +36,11 @@
 
   <div class="field", style="display: inline-block; margin-left: 50px;">
     <h4>City, State, Zip</h4>
-    <%= f.text_field :city, style: "width: 100px;", :required => true %>
+    <%= f.text_field :city, style: "width: 100px;", :required => true %><b>,</b>
   </div>
 
   <div class="field", style="display: inline-block;">
-    <%= f.text_field :csz, style: "width: 40px;", :required => true %>
+    <%= f.select :csz, options_for_select([["KY", "KY"], ["TN", "TN"]]), :required => true %> <b>,</b>
   </div>
 
   <div class="field", style="display: inline-block;">
@@ -89,24 +85,24 @@ This can be a pdf., word doc., or an excel spreadsheet.
 
   <div class="field">
     <h4>Meeting One Option:</h4>
-    <%= f.datetime_select :meetone, { ampm: true, order: [:month, :day, :year],minute_step: 15 }, :required => true  %>
+    <%= f.datetime_select :mone, { ampm: true, order: [:month, :day, :year],minute_step: 15 }, :required => true  %>
   </div>
 
   <div class="field", style="margin-bottom: 60px;">
     <h4>Meeting Two Option:</h4>
-    <%= f.datetime_select :meettwo, { ampm: true, order: [:month, :day, :year],minute_step: 15 }, :required => true %>
+    <%= f.datetime_select :mtwo, { ampm: true, order: [:month, :day, :year],minute_step: 15 }, :required => true %>
   </div>
 
-  <h3 class="begintext">As a partnership agency, school districts agree to:
+  <h3 class="begintext">As a partnership agency, your school district agrees to:<br>
+<%= f.check_box :c1, required:true %>Distribute Homework Hotline promotional items and prizes.<br>
+<%= f.check_box :c2, required:true %> Link Homework Hotline to the school district’s website or school websites.<br>
 
-• Ask principals to place stickers inside textbooks or in student planners.
 
-• Link Homework Hotline to the school district’s website or school websites.
-
-• Provide information on schools and textbooks in a timely way.
-
-• Write a thank-you letter to the donor who is underwriting your district (Hotline will let you know who).</h3>
-
+<%= f.check_box :c3, required:true %> Write a brief letter of support for Homework Hotline to provide to potential sponsors.</h3>
+<div class="field">
+<h4>Please upload the letter of support here:</h4>
+  <%= f.file_field :nice %>
+</div>
 <div class="field", style="display: inline-block; margin-top: 0px;">
     <h4>This contract was completed by</h4>
     <%= f.text_field :completedbyfirst, :style => "width: 70px; margin-right: 10px;", :required => true, placeholder: "First"   %>
@@ -119,7 +115,7 @@ This can be a pdf., word doc., or an excel spreadsheet.
   </div>
   <h3 class="begintext">Some smaller counties are partially funded by corporations who cover the cost of providing one-on-one tutoring sessions.
  
-  Please list any potential sponsors, corporations, or organizations that you believe may be interested in providing funding for students in your county.</h3>
+  Please list any potential sponsors, corporations, or organizations that you believe may be interested in providing funding for students in your county.<br><i>Please include name and email/website</i></h3>
   <div class="field">
   <b style="margin-right: 20px;">1.</b><%= f.text_field :d1, required: true %>
   </div><div class="field">
@@ -208,3 +204,5 @@ You may also upload the file as a pdf, word doc, or excel spreadsheet with the r
     border-radius: 0%;
   }
 </style>
+<script type="text/javascript">
+</script>

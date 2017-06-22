@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622172602) do
+ActiveRecord::Schema.define(version: 20170622192444) do
 
   create_table "call_logs", force: :cascade do |t|
     t.string   "entered_by"
@@ -87,6 +87,14 @@ ActiveRecord::Schema.define(version: 20170622172602) do
     t.string   "d1"
     t.string   "d2"
     t.string   "d3"
+    t.boolean  "c1"
+    t.boolean  "c2"
+    t.boolean  "c3"
+    t.string   "nice_name"
+    t.string   "nice_type"
+    t.binary   "nice_content"
+    t.datetime "mone"
+    t.datetime "mtwo"
   end
 
   create_table "schools", force: :cascade do |t|

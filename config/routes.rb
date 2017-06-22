@@ -8,11 +8,7 @@ devise_for :users, controllers: { registrations: 'users/registrations', sessions
 # or
 resources :user, only: [:show]
 
-  resources :principals do
-  	member do
-  		get :allnab
-  	end
-  end
+  resources :principals
   resources :time_clocks
   resources :mnps_reports
   get 'home/index'
@@ -20,6 +16,7 @@ resources :user, only: [:show]
   get '/all_mnps_reports/:id', to: 'mnps_reports#all_reports', as: 'all_mnps_reports'
   get '/principals/dlnab/:id', to: 'principals#dlnab', as: 'dlnab'
   get '/principals/dlsnl/:id', to: 'principals#dlsnl', as: 'dlsnl'
+  get '/principals/dlnice/:id', to: 'principals#dlnice', as: 'dlnice'
 
 
 
