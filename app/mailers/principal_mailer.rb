@@ -3,6 +3,6 @@ class PrincipalMailer < ApplicationMailer
 
   	def email(principal)
     	@principal = principal
-    	mail(to: "adrianne@homeworkhotline.info", subject: 'Principal Form Filled Out')
+    	mail(to: "volunteer@homeworkhotline.info", subject: 'Principal Form Filled Out')
   	end
 end

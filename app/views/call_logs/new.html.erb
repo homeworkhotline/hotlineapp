@@ -1,14 +1,42 @@
   <%= content_for :page, "Call Log" %>
   <div class="parent">
   <%= form_for(@call_log,:html=>{:class=>"firstform",:multipart => true}) do |f| %>
-    <%= f.text_field :codename, :required => true, placeholder: "Codename", class: "input" %>
+    <%= f.text_field :codename, :required => true, maxlength: 6, placeholder: "Codename", class: "input" %>
     <%= f.hidden_field :user_id, :value => current_user.id %>
     <%= f.hidden_field :date, :value => Date.today %>
-    <%= f.hidden_field :starttime, :value => Time.now.strftime("%k:%M:%S") %>
+    <p class="error">Codename not recognized. Please check spelling or register a new student <a class="link">here</a>.</p>
     <%= f.submit "CONTINUE", class: "button" %>
     <% end %>
     </div>
+    <script type="text/javascript">
+      $('.error').hide();
+      $('.button').attr('disabled','disabled');
+      $('.input').change(function() {
+        var value = $('.input').val().toUpperCase();
+        if ((<% Student.all.each do |student| %>value == "<%= student.codename %>" <% if student.id + 1 > Student.last.id %><% else %>|| <% end %><% end %>) && value != ""){
+          $('.button').removeAttr('disabled');
+          $('.error').hide();
+          $('.input').css("border", "none");
+        }
+        else {
+          $('.input').css("border", "#ff4d4d 2px solid");
+          $('.error').show();
+          $('.button').attr('disabled','disabled');
+        }
+        $('.link').click(function() {
+          $('form').submit();
+        });
+      });
+    </script>
     <style type="text/css">
+    .error {
+      color: #ff4d4d;
+      font-size:12px;
+      margin: 0;
+      margin-left: 10px;
+      position: relative;
+      bottom: 15px;
+    }
     	  .input {
     border: none;
     background-color:#f2f2f2;
@@ -25,6 +53,9 @@
     letter-spacing: .5px;
     transition: all 220ms ease-in-out
   }
+  .input:active {
+    border:auto;
+  }
   .parent {
     width: 300px;
     margin-left: -150px;
@@ -32,6 +63,14 @@
     position: relative;
     top: 30px;
   }
+  input[disabled="disabled"] {
+    cursor: not-allowed;
+    background-color: #ccc;
+}
+input[disabled="disabled"]:hover {
+    cursor: not-allowed;
+    background-color: #ccc;
+}
   .button {
   width: 150px;
   text-align: center;
@@ -54,13 +93,15 @@
   }
   .button:hover{ 
     background-color:#5CDA89;
-
+  }
+  a:hover {
+    cursor: pointer;
   }
   ::-webkit-input-placeholder {
     color: #ccc;
     opacity: 1 !important;
 }
-textarea:focus, input:focus{
+input:focus{
     outline: none;
     border-left: #45ef96 solid 5px;
     padding-left: 10px;

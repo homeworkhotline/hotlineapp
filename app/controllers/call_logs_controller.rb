@@ -31,9 +31,18 @@ class CallLogsController < ApplicationController
     @call_log = CallLog.new(call_log_params)
     @students = Student.all
     @schools = School.all
+    @call_log.codename = @call_log.codename.upcase
+    unless Student.exists?(codename: @call_log.codename)
+    @student = Student.new(codename: @call_log.codename)
+    @student.save!
+  end
+        @students.where(codename: @call_log.codename.upcase).each do |student|
+      @call_log.student_id = student.id
+      @call_log.save!
+    end
     respond_to do |format|
       if @call_log.save
-        if @call_log.student_id.nil?
+        if Student.where(codename: @call_log.codename).last.school_id.nil?
         format.html { redirect_to edit_student_path(@call_log.student_id), notice: 'Please create a student' }
         else
         format.html { redirect_to edit_call_log_path(@call_log), notice: 'Call log was successfully created.' }
@@ -43,17 +52,11 @@ class CallLogsController < ApplicationController
         format.html { render :new }
         format.json { render json: @call_log.errors, status: :unprocessable_entity }
       end
-                          unless Student.exists?(codename: @call_log.codename)
-    @student = Student.new(codename: @call_log.codename)
-    @student.save!
-  end
-    @students.where(codename: @call_log.codename).each do |student|
-      @call_log.student_id = student.id
-      @call_log.save!
-    end
     @call_log.entered_by = "#{@call_log.user.firstname} #{@call_log.user.lastname}"
     @call_log.save!
     end
+    @call_log.starttime = Time.now.strftime("%k:%M:%S")
+    @call_log.save!
   end
 
   # PATCH/PUT /call_logs/1

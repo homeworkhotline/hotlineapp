@@ -38,12 +38,8 @@ class TimeClocksController < ApplicationController
 
   # GET /time_clocks/new
   def new
-    if current_user.time_clocks.last && current_user.time_clocks.last.clock_out.nil?
-      redirect_to root_path
-    else
     @time_clock = TimeClock.new
     render :layout => 'report'
-  end
   end
 
   # GET /time_clocks/1/edit
@@ -53,9 +49,11 @@ class TimeClocksController < ApplicationController
   # POST /time_clocks
   # POST /time_clocks.json
   def create
+    if current_user.time_clocks.last && current_user.time_clocks.last.clock_out.nil?
+      redirect_to root_path
+    else
     @time_clock = TimeClock.new(time_clock_params)
     @time_clock.user_id = current_user.id
-    @time_clock.date = Date.today.to_s
     @time_clock.save!
 
     if current_user.mnps_teacher?
@@ -77,6 +75,7 @@ class TimeClocksController < ApplicationController
         format.json { render json: @time_clock.errors, status: :unprocessable_entity }
       end
     end
+  end
   end
 
   # PATCH/PUT /time_clocks/1

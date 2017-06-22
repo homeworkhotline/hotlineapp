@@ -69,10 +69,10 @@
 </table>
 <div class="info">
   <h3>TOTAL HOURS</h3>
-  <h1><%= @total_hours %></h1>
+  <h1><%= @total_hours.round(2) %></h1>
   <hr style="width: 50%; border:none; height: 2px; background-color: #45ef96;">
   <h3>UNPAID HOURS</h3>
-  <h1><%= @unpaid_hours %></h1>
+  <h1><%= @unpaid_hours.round(2) %></h1>
 </div>
 
 <style type="text/css">

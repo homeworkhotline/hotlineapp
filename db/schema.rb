@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170613224621) do
+ActiveRecord::Schema.define(version: 20170622172602) do
 
   create_table "call_logs", force: :cascade do |t|
     t.string   "entered_by"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170613224621) do
     t.boolean  "parent"
     t.string   "lang"
     t.string   "duration"
+    t.integer  "timesdialed"
   end
 
   create_table "mnps_reports", force: :cascade do |t|
@@ -83,6 +84,9 @@ ActiveRecord::Schema.define(version: 20170613224621) do
     t.string   "schoolname"
     t.string   "city"
     t.integer  "zip"
+    t.string   "d1"
+    t.string   "d2"
+    t.string   "d3"
   end
 
   create_table "schools", force: :cascade do |t|
