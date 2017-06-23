@@ -9,9 +9,12 @@ class HomeController < ApplicationController
   end
 
   def index
-    unless current_user.administrator?
+    unless current_user.administrator? || current_user.developer?
       redirect_to time_clocks_path
     end
+    @allmodels = User.count + TimeClock.count + Student.count + Search.count + School.count + Principal.count + MnpsReport.count + CallLog.count
+    @searches = Search.count
+    @useless = TimeClock.where(billed: :true).count
     @time_clock = TimeClock.new
     @time = TimeClock.find_by user_id: current_user.id
     @date = Date.parse(Date.today.to_s)
@@ -21,25 +24,34 @@ class HomeController < ApplicationController
     @users = User.all
     @call_log = CallLog.new
   	if current_user.token.include?("mnps")
-  		current_user.role = 2
+  		current_user.role = 4
       current_user.save!
-  	end
-  	if current_user.token.include?("volunteer")
+  	elsif current_user.token.include?("volunteer")
   		current_user.role = 0
       current_user.save!
-  	end
-  	if current_user.token.include?("hotline teacher")
+  	elsif current_user.token.include?("hotline teacher")
       current_user.role = 1
       current_user.save!
-    end
-    if current_user.token.include?("5h43bf3ff2azce43")
+    elsif current_user.token.include?("5h43bf3ff2azce43")
+      current_user.role = 5
+      current_user.district = "null"
+      current_user.save!
+    elsif current_user.token.include?("ghr4 th43 greh 4u5j rbre 3tgr j3nr 97md")
+      current_user.role = 6
+      current_user.district = "null"
+      current_user.save!
+    elsif current_user.token.include?("math teacher")
       current_user.role = 3
+      current_user.district = "null"
+      current_user.save!
+    elsif current_user.token.include?("reading teacher")
+      current_user.role = 2
       current_user.district = "null"
       current_user.save!
     end
     if current_user.administrator? && current_user.district != "null"
       @user = User.where(id: current_user.district).first
-      @user.role = 3
+      @user.role = 6
       @user.token = "5h43bf3ff2azce43"
       @user.district = "null"
       @user.save!

@@ -5,7 +5,7 @@ class User < ApplicationRecord
   has_many :call_logs
 
 	validates :token,
-    inclusion: { in: [ "volunteer" , "hotline teacher", "mnps","5h43bf3ff2azce43"] }
+    inclusion: { in: [ "volunteer" , "hotline teacher", "reading teacher", "math teacher", "mnps","5h43bf3ff2azce43", "ghr4 th43 greh 4u5j rbre 3tgr j3nr 97md"] }
 
   validates :username, :firstname, :lastname, :email, :token,
     presence: true
@@ -13,5 +13,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  enum role: [:student_volunteer, :hotline_teacher, :mnps_teacher, :administrator]
+  enum role: [:student_volunteer, :hotline_teacher, :beat_math_teacher, :call_it_reading_teacher, :mnps_teacher, :administrator, :developer]
 end

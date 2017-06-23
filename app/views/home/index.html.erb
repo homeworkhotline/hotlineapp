@@ -3,6 +3,7 @@
 <%= link_to'Logout', destroy_user_session_path, :method => :delete %>
   	<%= link_to "Time Clock", time_clocks_path %>
   <h1>Welcome back, <%= current_user.firstname.capitalize %>.</h1><br><br>
+  <% if current_user.administrator? %>
     <h3>Employees</h3>
   <% User.where.not(id: current_user.id).each do |user| %>
   <%= link_to "#{user.firstname} #{user.lastname}", user_path(user) %><br>
@@ -67,3 +68,13 @@
     <div class="three load"></div>
   </div>
 </div>
+<% else %>
+<h2>DB Slots</h2>
+<h1><%= @allmodels %>/10,000</h1>
+<%= pie_chart [["Users",User.count],["Timesheets",TimeClock.count],["Students",Student.count],["Schools",School.count],["Searches",Search.count],["Principals",Principal.count],["Reports",MnpsReport.count],["Call Logs",CallLog.count]], legend: false, colors: ["#d0fbe5","#a1f7cb","#72f3b0", "#45ef96", "#14eb7c", "#12d370", "#10bc63", "#0ea457"], width: "250px" %>
+<style type="text/css">
+ h2 {
+  font-weight: 400;
+}
+</style>
+<% end %>
