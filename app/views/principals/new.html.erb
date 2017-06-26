@@ -14,7 +14,7 @@
     </div>
   <% end %>
   <div class="parent">
-  <h3 class="begintext">For school year 2017-18, please complete this checklist and attach your school list by <strong>July 14, 2017</strong>. <i>(We use this contract to send the correct amount of flashcards, rulers, and other Hotline materials to your school district.)</i></h3>
+  <h3 class="begintext">For school year 2017-18, please complete this checklist and attach your school list by <strong>July 17, 2017</strong>. <i>(We use this contract to send the correct amount of flashcards, rulers, and other Hotline materials to your school district.)</i></h3>
   <div class="field", style="display: inline-block; margin-top: 0px;">
     <h4 style="margin-right: 40px;">Contact for County</h4>
     <%= f.text_field :ccontactfirst, :style => "width: 70px; margin-right: 10px;", :required => true, placeholder: "First"  %>
@@ -96,8 +96,6 @@ This can be a pdf., word doc., or an excel spreadsheet.
   <h3 class="begintext">As a partnership agency, your school district agrees to:<br>
 <%= f.check_box :c1, required:true %>Distribute Homework Hotline promotional items and prizes.<br>
 <%= f.check_box :c2, required:true %> Link Homework Hotline to the school district’s website or school websites.<br>
-
-
 <%= f.check_box :c3, required:true %> Write a brief letter of support for Homework Hotline to provide to potential sponsors.</h3>
 <div class="field">
 <h4>Please upload the letter of support here:</h4>
@@ -115,13 +113,13 @@ This can be a pdf., word doc., or an excel spreadsheet.
   </div>
   <h3 class="begintext">Some smaller counties are partially funded by corporations who cover the cost of providing one-on-one tutoring sessions.
  
-  Please list any potential sponsors, corporations, or organizations that you believe may be interested in providing funding for students in your county.<br><i>Please include name and email/website</i></h3>
+  <b>Please list any potential sponsors, corporations, or organizations that you believe may be interested in providing funding for students in your county.</b><br><i>Please include name and email/website</i></h3>
   <div class="field">
-  <b style="margin-right: 20px;">1.</b><%= f.text_field :d1, required: true %>
+  <b style="margin-right: 20px;">1.</b><%= f.text_field :d1, required: true, placeholder: "Name" %> <%= f.email_field :de1, required: true, placeholder: "Email / Website" %>
   </div><div class="field">
-  <b style="margin-right: 20px;">2.</b><%= f.text_field :d2%>
+  <b style="margin-right: 20px;">2.</b><%= f.text_field :d2, placeholder: "Name"%> <%= f.email_field :de2, placeholder: "Email / Website"%>
   </div><div class="field">
-  <b style="margin-right: 20px;">3.</b><%= f.text_field :d3%>
+  <b style="margin-right: 20px;">3.</b><%= f.text_field :d3, placeholder: "Name"%> <%= f.email_field :de3, placeholder: "Email / Website"%>
   </div>
   <h3 class="begintext">
 The Homework Hotline team will reach out to them for support on your behalf.
