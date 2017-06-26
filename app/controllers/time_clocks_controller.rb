@@ -78,6 +78,7 @@ class TimeClocksController < ApplicationController
   end
   @users = User.all.joins(:time_clocks).where(time_clocks: {clock_out: nil}).count
      ActionCable.server.broadcast "online_channel",{users: @users}
+     ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   # PATCH/PUT /time_clocks/1
