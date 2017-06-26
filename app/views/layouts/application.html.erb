@@ -7,6 +7,7 @@
     <%= csrf_meta_tags %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= action_cable_meta_tag %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
@@ -18,7 +19,6 @@
 <div class="title"><%= current_user.role.to_s.tr('_', ' ').upcase %></div>
 </div><br><br>
 <% end %>
-  <% @delete = Search.where('created_at > ?', 1.day.ago).delete_all %>
     <%= yield %>
     <style type="text/css">
       a {

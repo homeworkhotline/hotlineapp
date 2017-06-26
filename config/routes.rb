@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :call_logs
   resources :schools
   resources :students
@@ -11,8 +12,10 @@ resources :user, only: [:show]
   resources :principals
   resources :time_clocks
   resources :mnps_reports
+  resources :image_shares, only: [:new, :create, :show]
   get 'home/index'
   get 'home/timesheets'
+  get 'home/statistics', as: '/statistics'
   get '/all_mnps_reports/:id', to: 'mnps_reports#all_reports', as: 'all_mnps_reports'
   get '/principals/dlnab/:id', to: 'principals#dlnab', as: 'dlnab'
   get '/principals/dlsnl/:id', to: 'principals#dlsnl', as: 'dlsnl'

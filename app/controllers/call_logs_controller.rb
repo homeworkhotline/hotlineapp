@@ -57,6 +57,8 @@ class CallLogsController < ApplicationController
     end
     @call_log.starttime = Time.now.strftime("%k:%M:%S")
     @call_log.save!
+    ActionCable.server.broadcast "active_log_channel",{activelogs: CallLog.all.where(endtime: nil).count}
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size, images: ImageShare.all.size}
   end
 
   # PATCH/PUT /call_logs/1
@@ -75,6 +77,7 @@ class CallLogsController < ApplicationController
       @call_log.endtime = Time.now.strftime("%k:%M:%S")
       @call_log.duration = time_diff(@call_log.starttime, @call_log.endtime)
       @call_log.save!
+  ActionCable.server.broadcast "active_log_channel",{activelogs: CallLog.all.where(endtime: nil).count}
   end
 
   # DELETE /call_logs/1
@@ -85,6 +88,7 @@ class CallLogsController < ApplicationController
       format.html { redirect_to call_logs_url, notice: 'Call log was successfully destroyed.' }
       format.json { head :no_content }
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   private

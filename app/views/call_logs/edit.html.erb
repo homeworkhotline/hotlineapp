@@ -1,85 +1,102 @@
 <% content_for :page, "Call Log" %>
 <%= form_for(@call_log) do |f| %>
-
+  <div class="calldetails">
+  <h2>CALL DETAILS</h2>
   <div class="field">
-    <%= f.label :math %>
-    <%= f.check_box :math %>
+  <h3>Times dialed</h3>
+    <%= f.number_field :timesdialed %>
   </div>
 
   <div class="field">
-    <%= f.label :worksheet %>
+  <h3>Language spoken</h3>
+    <%= f.text_field :lang %>
+  </div>
+
+  <div class="field">
+  <h3>Parent participation</h3>
+    <%= f.check_box :parent %>
+  </div>
+  </div>
+<div class="material">
+<h2>MATERIAL COVERED</h2>
+  <div class="field">
+    <h3>Subject</h3><%= f.text_field :skill %>
+  </div>
+
+  <div class="field checks">
+  <h3>Materials</h3>
+    <h4 style="width: 263px !important;">Textbook</h4>
+    <%= f.check_box :textbool, id: "textbool" %>
+  </div>
+
+  <div class="field checks">
+    <h4>Worksheet</h4>
     <%= f.check_box :worksheet %>
   </div>
 
-  <div class="field">
-    <%= f.label :stoodle %>
+  <div class="field checks">
+    <h4>Stoodle</h4>
     <%= f.check_box :stoodle %>
   </div>
 
-  <div class="field">
-    <%= f.label :image_share %>
+  <div class="field checks">
+    <h4>Image Share</h4>
     <%= f.check_box :image_share %>
   </div>
 
-  <div class="field">
-    <%= f.label :textbook %> - dropdown
+  <div class="field hide">
+    <h3>Textbook</h3>
     <%= f.text_field :textbook %>
   </div>
 
-  <div class="field">
-    <%= f.label :page %>
+  <div class="field hide">
+    <h4>Page</h4>
     <%= f.number_field :page %>
   </div>
 
-  <div class="field">
-    <%= f.label :chaptitle %>
-    <%= f.text_field :chaptitle %>
-  </div>
-
-  <div class="field">
-    <%= f.label :notes %>
+  <div class="field" style="margin-top: 30px; margin-bottom: 30px;">
+  <h3>Skill assessed</h3>
     <%= f.text_area :notes %>
   </div>
-
-  <div class="field">
-    <%= f.label :skill %> - dropdown
-    <%= f.text_field :skill %>
-  </div>
-
-  <div class="field">
-    <%= f.range_field :startknow, :min=>0, :max=>5 %>
 </div>
+<div class="session">
+<h2>SESSION EVALUATION</h2>
+<h3>Understanding at the start of session:</h3>
   <div class="field">
-    <%= f.label :endknow %> - dropdown
-    <%= f.range_field :endknow, :min=>0, :max=>2, list: "steplist" %>
-          <datalist id="steplist">
-    <option>0</option>
-    <option>1</option>
-    <option>2</option>
-    </datalist>
+    <%= f.range_field :startknow, :min=>-5, :max=>0, class: "start", value: 0 %>
+</div>
+<h4 class="understand beginning">Basic knowledge of subject.</h4>
+<h3>Understanding at the end of session:</h3>
+  <div class="field">
+    <%= f.range_field :endknow, :min=>0, :max=>2, class: "end", value: 0 %>
   </div>
-
+  <h4 class="understand ending" style="margin-bottom: 10px;">Did not complete call</h4>
+  <div class="post">
+  <h4 class="understand" style="display: inline-block;">Post-test given.</h4>
+    <%= f.check_box :posttest, style: "display:inline-block", class: "postcheck" %>
+  </div>
+</div>
   <div class="actions">
-    <%= f.submit "Click when call is finished"%>
+    <%= f.submit "FINISH CALL", class: "button"%>
   </div>
 <% end %>
-<style type="text/css">}
+<style type="text/css">
 input[type="range"]::-ms-fill-lower {
   background: transparent;
 }
 input[type='range']:focus {
   outline: none;
 }
-  input[type=range] {
+  .start {
   -webkit-appearance: none;
-  width: 500px;
+  width: 375px;
   margin: 4.5px 0;
 }
 input[type=range]:focus {
   outline: none;
 }
-input[type=range]::-webkit-slider-runnable-track {
-  width: 500px;
+.start::-webkit-slider-runnable-track {
+  width: 375px;
   height: 6px;
   cursor: pointer;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0), 0px 0px 5px rgba(13, 13, 13, 0);
@@ -101,8 +118,8 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]:focus::-webkit-slider-runnable-track {
   background: #f7f7f7;
 }
-input[type=range]::-moz-range-track {
-  width: 500px;
+.start::-moz-range-track {
+  width: 375px;
   height: 6px;
   cursor: pointer;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0), 0px 0px 5px rgba(13, 13, 13, 0);
@@ -119,8 +136,8 @@ input[type=range]::-moz-range-thumb {
   background: #45ef96;
   cursor: pointer;
 }
-input[type=range]::-ms-track {
-  width: 500px;
+.start::-ms-track {
+  width: 375px;
   height: 10px;
   cursor: pointer;
   background: transparent;
@@ -155,4 +172,216 @@ input[type=range]:focus::-ms-fill-lower {
 input[type=range]:focus::-ms-fill-upper {
   background: #f7f7f7;
 }
+  .end {
+  -webkit-appearance: none;
+  width: 200px;
+  margin: 4.5px 0;
+}
+.end::-ms-track {
+  width: 200px;
+  height: 10px;
+  cursor: pointer;
+  background: transparent;
+  border-color: transparent;
+  color: transparent;
+}
+.end::-moz-range-track {
+  width: 200px;
+  height: 6px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0), 0px 0px 5px rgba(13, 13, 13, 0);
+  background: #f2f2f2;
+  border-radius: 0px;
+  border: 0px solid rgba(0, 0, 0, 0);
+}
+.end::-webkit-slider-runnable-track {
+  width: 200px;
+  height: 6px;
+  cursor: pointer;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0), 0px 0px 5px rgba(13, 13, 13, 0);
+  background: #f2f2f2;
+  border-radius: 0px;
+  border: 0px solid rgba(0, 0, 0, 0);
+}
+.field {
+    display: flex;
+  align-items: center;
+  position: relative;
+  width: 374px;
+  margin-left: -187px;
+  left: 50%;
+  line-height: 0;
+}
+input[type=text], input[type=number], input[type=checkbox], textarea{
+  background: #f2f2f2;
+  width: 145px;
+  font-size: 16px;
+  height: 30px;
+  border-radius: 0px;
+  border: none;
+  position: absolute;
+  right: 0;
+}
+input[type=number] {
+  width: 55px !important; 
+}
+input[type=checkbox] {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  padding: 9px;
+  right: -5px;
+}
+input[type=checkbox]:checked {
+  background-color: #45ef96;
+  color: #000;
+}
+input[type=checkbox]:checked:after {
+  content: '\2714';
+  font-size: 14px;
+  position: absolute;
+  top: 1px;
+  left: 4px;
+  color: #000;
+}
+input[type=checkbox]:focus {
+  outline: none;
+}
+textarea {
+  height: 70px;
+}
+h2 {
+  display: block;
+  width: 150px;
+  text-align: center;
+  position: relative;
+  font-size: 17px;
+  bottom: 23px;
+  background-color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+h4 {
+  font-weight: 300;
+  font-style: italic;
+  position: relative;
+  width: 300px;
+  text-align: right;
+}
+h3{
+  font-weight: 500;
+  font-size: 19px;
+}
+.end {
+  position: relative;
+  left: 50%;
+  margin-left: -100px;
+}
+.calldetails, .material, .session {
+
+      border: 3px solid #45ef96;
+    width: 470px;
+    margin-left: -275px;
+    position: relative;
+    left: 50%;
+    padding-bottom: 20px;
+    margin-top: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
+}
+.material > h2 {
+  width: 210px;
+}
+.session > h2 {
+  width: 230px;
+}
+.checks {
+  margin-top: -10px !important;
+}
+.checks > h4 {
+  width: 340px;
+  position: relative;
+  top: 3px;
+}
+  .button {
+  width: 170px;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  padding: 10px 0;
+  letter-spacing: 2px;
+  color: #fff;
+  background-color: #65ef96;
+  text-shadow: none;
+  text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  margin-left: -85px;
+  left: 50%;
+  transition: all 150ms ease-in-out;
+  margin-bottom: 30px;
+  margin-top: 30px;
+  }
+  .button:hover{ 
+    background-color:#5CDA89;
+  }
+  .understand {
+    font-size: 17px;
+    text-align: center;
+    width: auto;
+    margin-bottom: 35px;
+  }
+  .post {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .post >h4 {
+    font-size: 20px;
+  }
+  .post > input {
+    position: relative;
+    margin-bottom: 8px;
+  }
 </style>
+<script type="text/javascript">
+$(document).ready(function(){
+$('.hide').hide();
+$('#textbool').change(function(){
+if (document.getElementById('textbool').checked){
+  $('.hide').slideDown(200);
+}else{$('.hide').slideUp(200);}
+});
+  $('.start').on("change", function(){
+    var start = $(this).val();
+    if(start == -5){
+      $('.beginning').text('-5');
+    }else if(start == -4){
+      $('.beginning').text('-4');
+    }else if(start == -3){
+      $('.beginning').text('-3');
+    }else if(start == -2){
+      $('.beginning').text('-2');
+    }else if(start == -1){
+      $('.beginning').text('-1');
+    }else if(start == 0){
+      $('.beginning').text('0');
+    }
+  });
+  $('.end').on("change", function(){
+    var end = $(this).val();
+    if(end == 0){
+      $('.ending').text('0');
+      $('.postcheck').attr("checked", false);
+    }else if(end == 1){
+      $('.ending').text('1');
+      $('.postcheck').attr("checked", false);
+    }else if(end == 2){
+      $('.ending').text('2');
+      $('.postcheck').attr("checked", true);
+    }
+  });
+});
+</script>

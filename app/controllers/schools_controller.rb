@@ -36,6 +36,7 @@ class SchoolsController < ApplicationController
         format.json { render json: @school.errors, status: :unprocessable_entity }
       end
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   # PATCH/PUT /schools/1
@@ -60,6 +61,7 @@ class SchoolsController < ApplicationController
       format.html { redirect_to schools_url, notice: 'School was successfully destroyed.' }
       format.json { head :no_content }
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   private

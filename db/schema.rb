@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170622192444) do
+ActiveRecord::Schema.define(version: 20170625213514) do
 
   create_table "call_logs", force: :cascade do |t|
     t.string   "entered_by"
@@ -37,6 +37,17 @@ ActiveRecord::Schema.define(version: 20170622192444) do
     t.string   "lang"
     t.string   "duration"
     t.integer  "timesdialed"
+    t.boolean  "posttest"
+    t.boolean  "textbool"
+  end
+
+  create_table "image_shares", force: :cascade do |t|
+    t.string   "image_name"
+    t.string   "image_type"
+    t.binary   "image_content"
+    t.string   "codename"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
   end
 
   create_table "mnps_reports", force: :cascade do |t|

@@ -18,12 +18,12 @@ class TimeClocksController < ApplicationController
       if time.clock_out.nil?
       else
         time.hours = time_diff(time.clock_in, time.clock_out)
+        time.save!
         @total_hours += time.hours
       end
     end
     @time_clocks.where(billed: false).each do |time|
     if time.hours.nil?
-      @unpaid_hours += 0
     else
     @unpaid_hours += time.hours
   end
@@ -76,6 +76,8 @@ class TimeClocksController < ApplicationController
       end
     end
   end
+  @users = User.all.joins(:time_clocks).where(time_clocks: {clock_out: nil}).count
+     ActionCable.server.broadcast "online_channel",{users: @users}
   end
 
   # PATCH/PUT /time_clocks/1
@@ -84,13 +86,13 @@ class TimeClocksController < ApplicationController
     @time_clock = TimeClock.find(params[:id])
     if current_user.hotline_teacher? || current_user.mnps_teacher?
       @time_clock.clock_out = round_time(Time.now).strftime("%k:%M:%S")
-      @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     else
       @time_clock.clock_out = Time.now.strftime("%k:%M:%S")
-      @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     end
+    @time_clock.hours = time_diff(@time_clock.clock_in, @time_clock.clock_out)
+    @time.save!
     @time_clock.billed = 0
     @time_clock.save!
     respond_to do |format|
@@ -112,6 +114,7 @@ class TimeClocksController < ApplicationController
       format.html { redirect_to time_clocks_url, notice: 'Time clock was successfully destroyed.' }
       format.json { head :no_content }
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   private

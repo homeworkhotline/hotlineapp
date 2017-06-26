@@ -7,9 +7,9 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # POST /resource/sign_in
-  # def create
-  #   super
-  # end
+   def create
+     super
+   end
 
   # DELETE /resource/sign_out
    def destroy
@@ -26,6 +26,8 @@ class Users::SessionsController < Devise::SessionsController
     @time_clock.billed = 0
     @time_clock.save!
     super
+    @users = User.all.joins(:time_clocks).where(time_clocks: {clock_out: nil}).count
+    ActionCable.server.broadcast "online_channel",{users: @users}
    end
 
   # protected

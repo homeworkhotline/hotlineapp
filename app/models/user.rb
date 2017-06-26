@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  
+
   has_many :time_clocks
   has_many :mnps_reports
   has_many :call_logs
@@ -14,4 +14,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   enum role: [:student_volunteer, :hotline_teacher, :beat_math_teacher, :call_it_reading_teacher, :mnps_teacher, :administrator, :developer]
+
+
 end

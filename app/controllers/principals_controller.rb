@@ -71,6 +71,7 @@ class PrincipalsController < ApplicationController
         format.json { render json: @principal.errors, status: :unprocessable_entity }
       end
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   # PATCH/PUT /principals/1
@@ -95,6 +96,7 @@ class PrincipalsController < ApplicationController
       format.html { redirect_to principals_url, notice: 'Principal was successfully destroyed.' }
       format.json { head :no_content }
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   private

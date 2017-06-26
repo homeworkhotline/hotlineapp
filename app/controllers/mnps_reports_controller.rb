@@ -77,6 +77,7 @@ class MnpsReportsController < ApplicationController
         format.json { render json: @mnps_report.errors, status: :unprocessable_entity }
       end
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   # PATCH/PUT /mnps_reports/1
@@ -101,6 +102,7 @@ class MnpsReportsController < ApplicationController
       format.html { redirect_to mnps_reports_url, notice: 'Mnps report was successfully destroyed.' }
       format.json { head :no_content }
     end
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   private

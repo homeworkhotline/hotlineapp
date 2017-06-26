@@ -1,5 +1,5 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
+  include Devise::Controllers::Helpers
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -8,9 +8,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+  def create
+    super
+    if resource.token.include?("mnps")
+      resource.role = 4
+    elsif resource.token.include?("volunteer")
+      resource.role = 0
+    elsif resource.token.include?("hotline teacher")
+      resource.role = 1
+    elsif resource.token.include?("5h43bf3ff2azce43")
+      resource.role = 5
+      resource.district = "null"
+    elsif resource.token.include?("ghr4 th43 greh 4u5j rbre 3tgr j3nr 97md")
+      resource.role = 6
+      resource.district = "null"
+    elsif resource.token.include?("math teacher")
+      resource.role = 2
+    elsif resource.token.include?("reading teacher")
+      resource.role = 3
+    end
+    resource.save!
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
+  end
 
   # GET /resource/edit
    #def edit
@@ -22,9 +41,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # DELETE /resource
-  # def destroy
-  #   super
-  # end
+   def destroy
+     super
+     ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
+   end
 
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
