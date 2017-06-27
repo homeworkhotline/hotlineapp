@@ -23,6 +23,8 @@ class ImageSharesController < ApplicationController
     send_data(@image.image_content,
             type: @image.image_type,
             filename: @image.image_name)
+    
+    @image.destroy
   end
 
     private

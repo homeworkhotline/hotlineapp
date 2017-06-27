@@ -16,7 +16,7 @@ private
 end
 def is_image
 	unless @image.content_type == "image/jpeg" || "image/pjpeg" || "image/png" || "image/x-png" || "image/gif"
-		errors.add(:image, 'File must be image.')
+		errors.add(@image, 'File must be image.')
 	end
 end
 end
