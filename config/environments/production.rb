@@ -10,19 +10,20 @@ Rails.application.configure do
   # Rake tasks automatically ignore this option for performance.
   config.eager_load = true
 
-  config.action_mailer.default_url_options = { host: 'homeworkhotline.herokuapp.com' }
+  config.action_mailer.default_url_options = { host: 'app.homeworkhotline.info' }
 
 config.action_mailer.default :charset => "utf-8"
 config.action_mailer.perform_deliveries = true
 config.action_mailer.raise_delivery_errors = false
 config.action_mailer.delivery_method = :smtp
 config.action_mailer.smtp_settings = {
- :address              => "smtp.gmail.com",
- :port                 => 587,
- :user_name            => ENV['gmail_username'],
- :password             => ENV['gmail_password'],
- :authentication       => "plain",
- :enable_starttls_auto => true
+:address => 'smtpout.secureserver.net',
+:domain  => 'www.homeworkhotline.info',
+:port      => 80,
+:user_name => 'volunteer@homeworkhotline.info',
+:password => 'Read3@Hh',
+:enable_starttls_auto => true,
+:authentication => :plain
 }
   # Full error reports are disabled and caching is turned on.
   config.consider_all_requests_local       = false

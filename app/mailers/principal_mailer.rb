@@ -1,5 +1,5 @@
 class PrincipalMailer < ApplicationMailer
-	default from: "homeworkhotlinenashville@gmail.com"
+	default from: "volunteer@homeworkhotline.info"
 
   	def email(principal)
     	@principal = principal
