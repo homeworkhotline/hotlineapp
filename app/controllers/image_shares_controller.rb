@@ -7,7 +7,14 @@ class ImageSharesController < ApplicationController
   end
 
   def create
-  	@image_share = ImageShare.new(image_share_params)
+  	@image = ImageShare.new(image_share_params)
+  	respond_to do |format|
+  		if @image.save
+  		format.html	{redirect_to("http://www.homeworkhotline.info")}
+  	else
+  	end
+  end
+  	ActionCable.server.broadcast "image_channel",{image: @image.id, codename: @image.codename}
   	ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
