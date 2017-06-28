@@ -12,6 +12,8 @@ class ImageSharesController < ApplicationController
   		if @image.save
   		format.html	{redirect_to("http://www.homeworkhotline.info")}
   	else
+  		format.html { render :new }
+        format.json { render json: @image.errors, status: :unprocessable_entity }
   	end
   end
   	ActionCable.server.broadcast "image_channel",{image: @image.id, codename: @image.codename}

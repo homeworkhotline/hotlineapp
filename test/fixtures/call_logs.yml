@@ -5,7 +5,6 @@ one:
   date: 2017-06-12
   starttime: 2017-06-12 11:12:29
   endtime: 2017-06-12 11:12:29
-  int: 
   math: false
   worksheet: false
   stoodle: false
@@ -22,8 +21,7 @@ two:
   entered_by: MyString
   date: 2017-06-12
   starttime: 2017-06-12 11:12:29
-  endtime: 2017-06-12 11:12:29
-  int: 
+  endtime: 2017-06-12 11:12:29 
   math: false
   worksheet: false
   stoodle: false

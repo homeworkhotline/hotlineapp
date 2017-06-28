@@ -1,13 +1,24 @@
-
 <div class="parent">
 <%= form_for(@image_share) do |f| %>
+  <% if @image_share.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@image_share.errors.count, "error") %> prohibited this @image_share from being saved:</h2>
+
+      <ul>
+      <% @image_share.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
 <div class="field">
 <%= f.text_field :codename, class: "input", required: true, maxlength: 6, placeholder: "Codename" %>
 <p class="error">Codename not recognized. Please check spelling.</p>
 </div>
 <div class="field upload">
 Upload image:
-<%= f.file_field :image, required: true %>
+<%= f.file_field :image, required: true, id: "uploader", onchange:"return ValidateFileUpload()" %><br><br>
+<p class="error2">Please only upload an image!</p>
 </div><br>
 <%= f.submit "Next", class: "button" %>
 <% end %>
@@ -16,6 +27,7 @@ Upload image:
 $('.upload').hide();
 $('.button').attr('disabled','disabled');
 $('.error').hide();
+$('.error2').hide();
 $('.input').change(function() {
 	var value = $('.input').val().toUpperCase();
         if ((<% Student.all.each do |student| %>value == "<%= student.codename %>" <% unless student.id + 1 > Student.last.id %>|| <% end %><% end %>) && value != ""){
@@ -23,7 +35,6 @@ $('.input').change(function() {
           $('.input').css("border", "none");}
           $('.error').hide();
           $('.upload').slideDown();
-          $('.button').removeAttr('disabled');
         }
         else {
           $('.input').css("border", "#ff4d4d 2px solid");
@@ -31,6 +42,19 @@ $('.input').change(function() {
           $('.error').show();
         }
       });
+		function ValidateFileUpload() {
+        var fuData = document.getElementById('uploader');
+        var FileUploadPath = fuData.value;
+        var Extension = FileUploadPath.substring(FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
+		if (Extension == "gif" || Extension == "png" || Extension == "bmp" || Extension == "jpeg" || Extension == "jpg") {
+			$('.button').removeAttr('disabled');
+			$('.error2').hide();
+		}
+		else {
+			$('.button').attr('disabled','disabled');
+			$('.error2').show();
+            }
+        }
 </script>
 <style type="text/css">
 	    	  .input {

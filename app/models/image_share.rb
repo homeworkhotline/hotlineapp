@@ -1,5 +1,5 @@
 class ImageShare < ApplicationRecord
-	validate :is_image
+	validate :is_image, on: :create
 	def initialize(params = {})
   @image = params.delete(:image)
   super
@@ -15,8 +15,8 @@ private
     return File.basename(filename)
 end
 def is_image
-	unless @image.content_type == "image/jpeg" || "image/pjpeg" || "image/png" || "image/x-png" || "image/gif"
-		errors.add(@image, 'File must be image.')
+	unless @image.content_type == "image/jpeg" || @image.content_type == "image/pjpeg" || @image.content_type == "image/png" || @image.content_type == "image/x-png" || @image.content_type == "image/gif"
+		errors.add(:image, 'File must be image.')
 	end
 end
 end
