@@ -15,11 +15,11 @@ class Users::SessionsController < Devise::SessionsController
    def destroy
     @time_clock = current_user.time_clocks.last
     if current_user.mnps_teacher?
-      @time_clock.clock_out = round_time(Time.now - 5.hours).strftime("%k:%M:%S")
+      @time_clock.clock_out = round_time(DateTime.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     else
-      @time_clock.clock_out = (Time.now - 5.hours).strftime("%k:%M:%S")
+      @time_clock.clock_out = (DateTime.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_out = @time_clock.clock_out
       @time_clock.save!
     end

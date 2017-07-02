@@ -8,25 +8,14 @@
   <% User.where.not(id: current_user.id).each do |user| %>
   <%= link_to "#{user.firstname} #{user.lastname}", user_path(user) %><br>
   <% end %><br>
+  <% if TimeClock.all.where.not(clock_out: nil, billed: true).present? %>
  <div class="pay">
-  <%= form_for(@mnps_report) do |f| %>
-  <%= f.hidden_field :var, :value => 1 %>
-  <%= f.hidden_field :user_id, :value => current_user.id %>
-  <%= f.hidden_field :billdate, :value => Date.today %>
-    <%= f.submit "Pay All Employees" %>
-    <% @users.where.not(role: :administrator).each do |user| %>
-      <% user.time_clocks.each do |time| %>
-        <% if time.clock_in && time.clock_out.nil? %>
-          <p style="color: red; display: inline-block;">A user has not clocked out!</p>
-        <% end %>
-      <% end %>
-    <% end %>
+  <%= form_for(Report.new) do |f| %>
+    <%= f.submit "Conduct Payroll" %>
   </div><br>
-  <div class="pay">
-  <%= link_to home_timesheets_path do %>
-  <button>Employee Timesheets</button>
   <% end %>
-  </div>
+    <% else %>
+  <button class="fake">Conduct Payroll</button>
   <br>
   <% end %><hr width="20%" style="float: left;"><br>
   <h2>Promote user to admin</h2>
@@ -57,9 +46,8 @@
 <script type="text/javascript">
   $(document).ready(function() {
     $('.load').hide();
-    $('button').click(function() {
-      $('body > :not(.load)').hide(); 
-      $('.load').show();
+    $('.fake').click(function() {
+      alert('No users are ready for payroll.')
     });
   });
 </script>

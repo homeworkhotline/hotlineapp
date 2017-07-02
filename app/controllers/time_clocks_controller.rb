@@ -9,7 +9,7 @@ class TimeClocksController < ApplicationController
     @time_clock = TimeClock.new
     @test_clock = current_user.time_clocks.last
     unless @test_clock && @test_clock.clock_out.nil?
-      @time = TimeClock.new(clock_in: Time.now, user_id: current_user.id, date: Date.today.to_s)
+      @time = TimeClock.new(clock_in: (DateTime.now - 5.hours), user_id: current_user.id, date: Date.today.to_s)
       @time.save!
     end
     @total_hours = 0
@@ -44,6 +44,9 @@ class TimeClocksController < ApplicationController
 
   # GET /time_clocks/1/edit
   def edit
+    unless current_user.administrator?
+        redirect_to root_path
+    end
   end
 
   # POST /time_clocks
@@ -57,11 +60,11 @@ class TimeClocksController < ApplicationController
     @time_clock.save!
 
     if current_user.mnps_teacher?
-      @time_clock.clock_in = round_time(Time.now - 5.hours).strftime("%k:%M:%S")
+      @time_clock.clock_in = round_time(DateTime.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     else
-      @time_clock.clock_in = (Time.now - 5.hours).strftime("%k:%M:%S")
+      @time_clock.clock_in = (DateTime.now - 5.hours).strftime("%k:%M:%S")
       @time_clock.clock_in = @time_clock.clock_in
       @time_clock.save!
     end
@@ -78,32 +81,24 @@ class TimeClocksController < ApplicationController
   end
   @users = User.all.joins(:time_clocks).where(time_clocks: {clock_out: nil}).count
      ActionCable.server.broadcast "online_channel",{users: @users}
-     ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: MnpsReport.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
+    ActionCable.server.broadcast "call_log_channel",{calllogs: CallLog.all.size, user: User.all.size, reports: Report.all.size,schools: School.all.size, principals: Principal.all.size, searches: Search.all.size, students:Student.all.size, timesheets: TimeClock.all.size}
   end
 
   # PATCH/PUT /time_clocks/1
   # PATCH/PUT /time_clocks/1.json
   def update
     @time_clock = TimeClock.find(params[:id])
-    if current_user.hotline_teacher? || current_user.mnps_teacher?
-      @time_clock.clock_out = round_time(Time.now).strftime("%k:%M:%S")
-      @time_clock.save!
-    else
-      @time_clock.clock_out = Time.now.strftime("%k:%M:%S")
-      @time_clock.save!
-    end
-    @time_clock.hours = time_diff(@time_clock.clock_in, @time_clock.clock_out)
-    @time.save!
-    @time_clock.billed = 0
-    @time_clock.save!
     respond_to do |format|
       if @time_clock.update(time_clock_params)
-        format.html { redirect_to root_path }
+        format.html { redirect_to @time_clock.user }
         format.json { render :show, status: :ok, location: @time_clock }
       else
         format.html { render :edit }
         format.json { render json: @time_clock.errors, status: :unprocessable_entity }
       end
+      @time_clock.billed = 0
+    @time_clock.hours = time_diff(@time_clock.clock_in, @time_clock.clock_out)
+    @time_clock.save!
     end
   end
 

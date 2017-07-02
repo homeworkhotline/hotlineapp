@@ -1,25 +1,12 @@
 <h2><%= @user.firstname %> has worked <%= @total_hours %> hours, and has <%= @unpaid_hours %> unpaid hours.</h2>
-<% if @unpaid_hours > 0 %>
-<%= form_for(@mnps_report) do |f| %>
-  <%= f.hidden_field :user_id, :value => @user.id %>
-  <%= f.hidden_field :billdate, :value => Date.today %>
-  <%= f.hidden_field :hours, :value => @unpaid_hours %>
-  <div class="actions">
-    <%= f.submit "Pay and Generate Report", class: "submit" %>
-  </div>
-<% end %>
-<% end %>
-<h3>Other Reports for this Employee</h3>
-<% if @user.mnps_reports.exists? %>
-	<% @user.mnps_reports.each do |report| %>
-		<%= link_to report.billdate.strftime("%B %e, %Y"), mnps_report_path(report, format: 'pdf') %>
-	<% end %>
-<% end %>
 <div class="one load">
 	<div class="two load">
 		<div class="three load"></div>
 	</div>
 </div>
+<% @user.time_clocks.where.not(clock_out: nil).order('created_at DESC').each do |time| %>
+		<% unless time.billed? %><%= link_to "#{time.date.strftime("%B %-d, %Y")}", edit_time_clock_path(time.id)%><% else%><s><%= time.date.strftime("%B %-d, %Y") %></s> <b>PAID</b><% end %><br>
+	<% end %>
 <style type="text/css">
 	.three {
 		width: 20px;

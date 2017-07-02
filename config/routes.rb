@@ -1,17 +1,18 @@
 Rails.application.routes.draw do
 
+  get 'reports/show'
+
+  resources :reports, only: [:show, :create]
   resources :call_logs
   resources :schools
   resources :students
   resources :searches
-devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
+  devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions' }
 
-# or
-resources :user, only: [:show]
+  resources :user, only: [:show]
 
   resources :principals
   resources :time_clocks
-  resources :mnps_reports
   resources :image_shares, only: [:new, :create, :show]
   get 'home/index'
   get 'home/timesheets'
@@ -24,6 +25,6 @@ resources :user, only: [:show]
 
 
 
-  root 'home#index'
+  root 'time_clocks#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

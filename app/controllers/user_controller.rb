@@ -5,7 +5,6 @@ class UserController < ApplicationController
   	@user = User.find(params[:id])
   	@total_hours = 0
     @unpaid_hours = 0
-    @mnps_report = MnpsReport.new
   	@user.time_clocks.each do |time|
   		if time.hours.nil?
   		else

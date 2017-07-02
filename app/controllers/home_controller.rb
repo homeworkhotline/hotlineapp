@@ -38,7 +38,6 @@ class HomeController < ApplicationController
     @onlineusers = @users.joins(:time_clocks).where(time_clocks: {clock_out: nil}).count
   end
     @search = Search.new
-    @mnps_report = MnpsReport.new
     if current_user.administrator? && current_user.district != "null"
       @user = User.where(id: current_user.district).first
       @user.role = 6
